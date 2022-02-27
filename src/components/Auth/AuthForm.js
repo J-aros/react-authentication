@@ -13,6 +13,10 @@ const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
+  const API_KEY = process.env.REACT_APP_API_KEY;
+  const API_URL_SIGN_IN = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`;
+  const API_URL_SIGN_UP = ` https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
+
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
@@ -26,11 +30,9 @@ const AuthForm = () => {
     setIsLoading(true);
     let url;
     if (isLogin) {
-      url =
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA0934RostgXxiQmLaM5gFHBJvPk0IDhwI";
+      url = API_URL_SIGN_IN;
     } else {
-      url =
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA0934RostgXxiQmLaM5gFHBJvPk0IDhwI";
+      url = API_URL_SIGN_UP;
     }
     fetch(url, {
       method: "POST",
@@ -97,7 +99,9 @@ const AuthForm = () => {
             className={classes.toggle}
             onClick={switchAuthModeHandler}
           >
-            {isLogin ? "Crear una nueva cuenta" : "Iniciar sesión con cuenta existente"}
+            {isLogin
+              ? "Crear una nueva cuenta"
+              : "Iniciar sesión con cuenta existente"}
           </button>
         </div>
       </form>

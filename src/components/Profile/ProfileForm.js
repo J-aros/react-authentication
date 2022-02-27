@@ -7,6 +7,9 @@ const ProfileForm = () => {
   const history = useHistory();
   const authCtx = useContext(AuthContext);
 
+  const API_KEY = process.env.REACT_APP_API_KEY;
+  const API_URL_UPDATE = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${API_KEY}`;
+
   const newPasswordInputRef = useRef();
 
   const submitHandler = (event) => {
@@ -14,21 +17,18 @@ const ProfileForm = () => {
 
     const enteredNewPassword = newPasswordInputRef.current.value;
 
-    fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyA0934RostgXxiQmLaM5gFHBJvPk0IDhwI",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          idToken: authCtx.token,
-          password: enteredNewPassword,
-          returnSecureToken: true,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    ).then((res) => {
-      history.replace('/');
+    fetch(API_URL_UPDATE, {
+      method: "POST",
+      body: JSON.stringify({
+        idToken: authCtx.token,
+        password: enteredNewPassword,
+        returnSecureToken: true,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => {
+      history.replace("/");
     });
   };
 
